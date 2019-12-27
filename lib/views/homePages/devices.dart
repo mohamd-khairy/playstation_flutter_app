@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:playstation_flutter_app/views/homePages/active.dart';
 import 'package:playstation_flutter_app/views/homePages/details.dart';
 
 class DevicesPage extends StatefulWidget{
@@ -13,7 +14,7 @@ class _DevicesPageState extends State<DevicesPage>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height - 185.0,
+      height: MediaQuery.of(context).size.height - 180.0,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(75.0)),
@@ -23,12 +24,20 @@ class _DevicesPageState extends State<DevicesPage>{
         padding: EdgeInsets.only(left: 45.0,right: 40.0),
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top: 45.0),
+            padding: EdgeInsets.only(top: 30.0,bottom: 10.0),
             child: Container(
-              height: MediaQuery.of(context).size.height - 330.0,
+              height: MediaQuery.of(context).size.height - 300.0,
               child: ListView(
                 children: <Widget>[
-                  _deviceItem("assets/images/p.jpg","device number 1","\$100")
+                  _deviceItem("assets/images/1.png","device number 1","\$100"),
+                  _deviceItem("assets/images/2.png","device number 1","\$100"),
+                  _deviceItem("assets/images/3.png","device number 1","\$100"),
+                  _deviceItem("assets/images/4.png","device number 1","\$100"),
+                  _deviceItem("assets/images/5.png","device number 1","\$100"),
+                  _deviceItem("assets/images/6.png","device number 1","\$100"),
+                  _deviceItem("assets/images/7.png","device number 1","\$100"),
+                  _deviceItem("assets/images/8.png","device number 1","\$100"),
+                  _deviceItem("assets/images/9.png","device number 1","\$100"),
                 ],
               ),
             ),
@@ -62,21 +71,26 @@ class _DevicesPageState extends State<DevicesPage>{
                   ),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: Row(
-                  children: <Widget>[
-                     Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 55.0,right: 2.0,top: 4.0),
-                          child: Text('1', style: TextStyle(fontSize: 15.0),),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 15.0),
-                          child: Icon(Icons.open_in_new, color:Colors.black),
-                        ),
-                      ],
-                    ),
-                  ]
+                child: InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ActiveDevicesPage()));
+                  },
+                  child: Row(
+                    children: <Widget>[
+                       Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 55.0,right: 2.0,top: 4.0),
+                            child: Text('1', style: TextStyle(fontSize: 15.0),),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 15.0),
+                            child: Icon(Icons.open_in_new, color:Colors.black),
+                          ),
+                        ],
+                      ),
+                    ]
+                  ),
                 ),
               ),
               Container(
@@ -106,12 +120,7 @@ class _DevicesPageState extends State<DevicesPage>{
     return Padding(
       padding: EdgeInsets.only(left: 10.0,right: 10.0,top: 10.0),
       child: InkWell(
-        onTap: (){
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => DetailsPage(heroTag: imgPath,deviceName: foodName,deviceNumber: price)
-            )
-          );
-        },
+        onTap: (){},
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -155,7 +164,12 @@ class _DevicesPageState extends State<DevicesPage>{
             IconButton(
               icon: Icon(Icons.add),
               color: Colors.black,
-              onPressed: (){},
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => DetailsPage(heroTag: imgPath,deviceName: foodName,deviceNumber: price)
+                  )
+                );
+              },
             )
           ],
         ),

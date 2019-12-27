@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -16,6 +18,22 @@ class DetailsPage extends StatefulWidget{
 class DetailsPageState extends State<DetailsPage> {
 
   var selectedCard = 'WEIGHT';
+
+
+  Stopwatch watch = Stopwatch();
+  Timer timer;
+  bool startStop = true;
+
+  String elapsedTime = '';
+
+  updateTime(Timer timer) {
+    if (watch.isRunning) {
+      setState(() {
+        print("startstop Inside=$startStop");
+        elapsedTime = transformMilliSeconds(watch.elapsedMilliseconds);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +136,7 @@ class DetailsPageState extends State<DetailsPage> {
                              children: <Widget>[
                                 InkWell(
                                  onTap: (){
-
+                                   stopWatch();
                                  },
                                  child: Container(
                                    height: 25.0,
@@ -132,14 +150,14 @@ class DetailsPageState extends State<DetailsPage> {
                                    ),
                                  ),
                                 ),
-                                Text('2', style: TextStyle(
+                                Text(elapsedTime, style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: "Montserrat",
-                                  fontSize: 15.0
+                                  fontSize: 15.0,
                                 ),),
                                 InkWell(
                                  onTap: (){
-
+                                   startWatch();
                                  },
                                  child: Container(
                                    height: 25.0,
@@ -260,6 +278,50 @@ class DetailsPageState extends State<DetailsPage> {
         ),
         )
     );
+  }
+
+  startWatch() {
+    setState(() {
+      startStop = false;
+      watch.start();
+      timer = Timer.periodic(Duration(milliseconds: 100), updateTime);
+    });
+  }
+
+  stopWatch() {
+    setState(() {
+      startStop = true;
+      watch.stop();
+      setTime();
+    });
+  }
+
+  startOrStop() {
+    if(startStop) {
+      startWatch();
+    } else {
+      stopWatch();
+    }
+  }
+
+  setTime() {
+    var timeSoFar = watch.elapsedMilliseconds;
+    setState(() {
+      elapsedTime = transformMilliSeconds(timeSoFar);
+    });
+  }
+
+  transformMilliSeconds(int milliseconds) {
+    int hundreds = (milliseconds / 10).truncate();
+    int seconds = (hundreds / 100).truncate();
+    int minutes = (seconds / 60).truncate();
+    int hours = (minutes / 60).truncate();
+
+    String hoursStr = (hours % 60).toString().padLeft(2, '0');
+    String minutesStr = (minutes % 60).toString().padLeft(2, '0');
+    String secondsStr = (seconds % 60).toString().padLeft(2, '0');
+
+    return "$hoursStr:$minutesStr:$secondsStr";
   }
 
   _selectedCard(cardTitle){
