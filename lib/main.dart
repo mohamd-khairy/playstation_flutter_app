@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:playstation_flutter_app/views/home.dart';
 
-void main() => runApp(MyApp());
+void main(){
+    runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
