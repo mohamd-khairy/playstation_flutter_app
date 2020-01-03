@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:playstation_flutter_app/views/homePages/details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class User {
   var status;
   String baseUrl = "http://10.0.2.2:8000/api/";
 
-  login(email , password) async{
+    login(email , password) async{
 
       Map data = {
         'email': "$email",
@@ -40,11 +41,36 @@ class User {
 
         status = response.statusCode;
         if(status == 200){ 
+          print(json.decode(response.body)['data']);
           return json.decode(response.body)['data'];
+        }else{
+        return [];
         }
     }
     
+     Future<Session> openSettion(id) async{
+      final prefs = await SharedPreferences.getInstance();
+      final value= prefs.get('token') ?? 0;
 
+      Map data = {
+        'device_id': id
+      };
+      var body = json.encode(data);
+
+      var response = await http.post(baseUrl + 'session',
+            headers: {"Authorization": "Bearer "+ value ,"Content-Type": "application/json","Accept": "application/json"},
+            body: body
+      );
+
+      status = response.statusCode;
+
+       print(status);
+      if(status == 200){
+        // print(json.decode(response.body)['data']);
+        // return json.decode(response.body)['data'];
+        return Session.fromJson(json.decode(response.body)['data']);
+      }
+    }
 
 
     _save(String token) async{

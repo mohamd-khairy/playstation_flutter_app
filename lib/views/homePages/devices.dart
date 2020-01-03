@@ -1,21 +1,25 @@
 
 import 'package:flutter/material.dart';
+import 'package:playstation_flutter_app/controller/user.dart';
 import 'package:playstation_flutter_app/views/homePages/details.dart';
 
 class DevicesPage extends StatelessWidget{
   List list;
   DevicesPage({this.list});
-
-    String imgPath ="assets/images/1.png";
-    String foodName = "device number 1" ;
-    String price = "\$100";
+              
+  User user = new User();
 
   @override
   Widget build(BuildContext context) {
-    // return Text(list.length.toString());
+
     return ListView.builder(
     itemCount: list.length,
     itemBuilder: (BuildContext context , int index){ 
+      
+    String imgPath = "assets/images/${list[index]['pc_number']}.png";
+    String foodName = list[index]['pc_name'];
+    String type = list[index]['game_type']['device_type']['type_name_en'];
+
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
@@ -43,7 +47,7 @@ class DevicesPage extends StatelessWidget{
                       )
                     ),
                     Text(
-                      price,
+                      type,
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 15.0,
@@ -59,8 +63,9 @@ class DevicesPage extends StatelessWidget{
             icon: Icon(Icons.add),
             color: Colors.black,
             onPressed: (){
+              // user.openSettion();
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => DetailsPage(heroTag: imgPath,deviceName: foodName,deviceNumber: price)
+                builder: (BuildContext context) => DetailsPage(id:list[index]['id'] ,heroTag: imgPath,deviceName: foodName,deviceNumber: type)
                 )
               );
             },

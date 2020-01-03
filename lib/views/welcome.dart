@@ -108,12 +108,18 @@ class _WelcomePageState  extends State<WelcomePage>{
                   child: InkWell(
                     onTap: (){},
                     child: Container(
-                      child: FutureBuilder<List>(builder: (context,snapshot){
-                              if(snapshot.hasError) print(snapshot.error);
-                              return snapshot.hasData? DevicesPage(list:snapshot.data):
-                                Center( child: CircularProgressIndicator(),);
-                              },
-                          future: user.devices(),
+                      child: FutureBuilder<List>(
+                        builder: (context,snapshot){
+                              Center( child: CircularProgressIndicator(),);
+                              if(snapshot.hasData){
+                                return DevicesPage(list:snapshot.data);
+                              }else if(snapshot.hasError) {
+                                return Center( child: Text(snapshot.error));
+                              }else{
+                                return Center( child: Text("there is no Device now."));
+                              }
+                        },
+                        future: user.devices(),
                       ),
                     ),
                   ),
